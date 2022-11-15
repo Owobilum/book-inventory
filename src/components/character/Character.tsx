@@ -11,15 +11,13 @@ const Character: FC<CharacterProps> = ({ characterUrl }) => {
   const { character } = useCharacter(characterUrl)
   const [characterDetails, setCharacterDetails] = useState<CharacterType>()
 
-  characterDetails && console.log(characterDetails)
-
   useEffect(() => {
     character && setCharacterDetails(character)
   }, [character])
 
   return (
     <div>
-      <h3>Character</h3>
+      <h3>{characterDetails?.name}</h3>
     </div>
   )
 }

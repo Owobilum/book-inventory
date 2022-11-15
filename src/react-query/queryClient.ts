@@ -1,4 +1,8 @@
-import { QueryClient } from 'react-query'
+import { QueryClient, QueryKey } from 'react-query'
+import { createWebStoragePersistor } from 'react-query/createWebStoragePersistor-experimental'
+import { persistQueryClient } from 'react-query/persistQueryClient-experimental'
+import { MILLISECS_IN_DAY } from '../utils'
+import { queryKeys } from './constants'
 
 function queryErrorHandler(error: unknown): void {
   const title =
@@ -11,8 +15,8 @@ export function generateQueryClient(): QueryClient {
     defaultOptions: {
       queries: {
         onError: queryErrorHandler,
-        staleTime: 600000, // 10 minutes
-        cacheTime: 900000, // default cacheTime is 5 minutes; doesn't make sense for staleTime to exceed cacheTime
+        staleTime: 600000,
+        cacheTime: MILLISECS_IN_DAY,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
@@ -24,4 +28,22 @@ export function generateQueryClient(): QueryClient {
   })
 }
 
+const localStoragePersistor = createWebStoragePersistor({
+  storage: window.localStorage,
+})
+
+const doNotPersistQueries: QueryKey[] = [queryKeys.books]
+
 export const queryClient = generateQueryClient()
+
+persistQueryClient({
+  queryClient,
+  persistor: localStoragePersistor,
+  maxAge: MILLISECS_IN_DAY,
+  hydrateOptions: {},
+  dehydrateOptions: {
+    shouldDehydrateQuery: ({ queryKey }) => {
+      return !doNotPersistQueries.includes(queryKey)
+    },
+  },
+})

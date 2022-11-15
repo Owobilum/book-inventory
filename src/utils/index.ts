@@ -9,3 +9,5 @@ export const parseLinkHeader = (linkHeader: string) => {
       ])
   )
 }
+
+export const MILLISECS_IN_DAY = 86400000

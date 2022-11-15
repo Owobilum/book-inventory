@@ -11,6 +11,10 @@ const Books: FC = () => {
   return (
     <div>
       <h1>Books</h1>
+
+      <div style={{ padding: 16 }}>
+        <input type="text" />
+      </div>
       <InfiniteScroll hasMore={hasNextPage} loadMore={fetchNextPage}>
         {isLoading && <h4>Loading...</h4>}
         {books ? (
