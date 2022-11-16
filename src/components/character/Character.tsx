@@ -1,25 +1,25 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useCharacter } from '../../hooks/useCharacter'
 import type { CharacterType } from '../../types'
 
 interface CharacterProps {
   characterUrl: string
+  handleSetCharacters: (character: CharacterType) => void
 }
 
-const Character: FC<CharacterProps> = ({ characterUrl }) => {
+const Character: FC<CharacterProps> = ({
+  characterUrl,
+  handleSetCharacters,
+}) => {
   const { character } = useCharacter(characterUrl)
-  const [characterDetails, setCharacterDetails] = useState<CharacterType>()
 
   useEffect(() => {
-    character && setCharacterDetails(character)
+    character && handleSetCharacters(character)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [character])
 
-  return (
-    <div>
-      <h3>{characterDetails?.name}</h3>
-    </div>
-  )
+  return <></>
 }
 
 export default Character
