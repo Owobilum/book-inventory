@@ -49,6 +49,12 @@ export const handleBookSearch = (
       return hasCharacter(characters, searchParam)
     case 'character_culture':
       return hasCulture(characters, searchParam)
+    case 'end_date':
+      if (
+        book.released.toLowerCase().includes(searchParam.toLowerCase().trim())
+      )
+        return true
+      else return false
     default:
       return true
   }

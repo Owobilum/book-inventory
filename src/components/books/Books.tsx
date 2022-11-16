@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 
 import { useInfiniteBooks } from '../../hooks/useInfiniteBooks'
@@ -20,17 +20,44 @@ const Books: FC = () => {
     useInfiniteBooks()
   const [filter, setFilter] = useState('')
   const [searchParam, setSearchParam] = useState('')
+  const [filterParams, setFilterParams] = useState<{
+    filter: string
+    searchParam: string
+  }>({ filter, searchParam })
+
+  const handleClick = () => {
+    setFilterParams({ filter, searchParam })
+  }
+
+  useEffect(() => {
+    if (searchParam === '' || filter === '') {
+      setFilterParams({ filter, searchParam })
+    }
+  }, [filter, searchParam])
 
   return (
     <div>
       <h1>Books</h1>
 
       <div style={{ padding: 16 }}>
-        <input
-          type="text"
-          onChange={(e) => setSearchParam(e.target.value)}
-          value={searchParam}
-        />
+        {filter !== 'end_date' && (
+          <input
+            type="text"
+            onChange={(e) => setSearchParam(e.target.value)}
+            value={searchParam}
+          />
+        )}
+        {filter === 'end_date' && (
+          <input
+            type="datetime-local"
+            id="end_date"
+            name="end_date"
+            className=""
+            onChange={(e) => setSearchParam(e.target.value)}
+            value={searchParam}
+          />
+        )}
+        <button onClick={handleClick}>Search</button>
       </div>
 
       <div style={{ paddingBottom: 32, paddingLeft: 16 }}>
@@ -56,11 +83,7 @@ const Books: FC = () => {
             <Fragment key={index}>
               {page.map((book) => {
                 return (
-                  <Book
-                    key={book.name}
-                    book={book}
-                    filter={{ filter, searchParam }}
-                  />
+                  <Book key={book.name} book={book} filter={filterParams} />
                 )
               })}
             </Fragment>
