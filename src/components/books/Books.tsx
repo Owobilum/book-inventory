@@ -3,6 +3,7 @@ import InfiniteScroll from 'react-infinite-scroller'
 
 import { useInfiniteBooks } from '../../hooks/useInfiniteBooks'
 import Book from '../book/Book'
+import Spinner from '../spinner/Spinner'
 
 const filterOptions: { name: string; value: string }[] = [
   { name: 'None', value: '' },
@@ -96,7 +97,11 @@ const Books: FC = () => {
         </div>
       </div>
       <InfiniteScroll hasMore={hasNextPage} loadMore={fetchNextPage}>
-        {isLoading && <h4>Loading...</h4>}
+        {isLoading && (
+          <h4 className="text-center text-gray-500 font-berkshire flex justify-center p-4">
+            <Spinner /> loading...
+          </h4>
+        )}
         {books ? (
           books?.pages.map((page, index) => (
             <div
@@ -113,7 +118,11 @@ const Books: FC = () => {
         ) : (
           <></>
         )}
-        {isFetchingNextPage && <h4>Loading New...</h4>}
+        {isFetchingNextPage && (
+          <h4 className="text-center text-gray-500 font-berkshire flex justify-center">
+            <Spinner /> loading more books...
+          </h4>
+        )}
       </InfiniteScroll>
     </div>
   )
