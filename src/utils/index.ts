@@ -11,3 +11,8 @@ export const parseLinkHeader = (linkHeader: string) => {
 }
 
 export const MILLISECS_IN_DAY = 86400000
+
+export const formatDate = (date: string) => {
+  let formattedDate = new Date(date)
+  return formattedDate.toLocaleString()
+}

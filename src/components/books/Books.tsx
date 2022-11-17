@@ -37,56 +37,81 @@ const Books: FC = () => {
 
   return (
     <div>
-      <h1>Books</h1>
-
-      <div style={{ padding: 16 }}>
-        {filter !== 'end_date' && (
-          <input
-            type="text"
-            onChange={(e) => setSearchParam(e.target.value)}
-            value={searchParam}
-          />
-        )}
-        {filter === 'end_date' && (
-          <input
-            type="datetime-local"
-            id="end_date"
-            name="end_date"
-            className=""
-            onChange={(e) => setSearchParam(e.target.value)}
-            value={searchParam}
-          />
-        )}
-        <button onClick={handleClick}>Search</button>
-      </div>
-
-      <div style={{ paddingBottom: 32, paddingLeft: 16 }}>
-        {filterOptions?.map(({ name, value }) => (
-          <Fragment key={name}>
-            <input
-              type="radio"
-              id={value}
-              name="filter"
-              value={value}
-              onChange={(e) => setFilter(e.target.value)}
-              style={{ cursor: 'pointer' }}
-            />
-            <label htmlFor={value}>{name}</label>
-            <br />
-          </Fragment>
-        ))}
+      <div
+        className="px-[5%] w-full h-[300px] bg-custom_gray flex flex-col items-center justify-center gap-8 bg-cover"
+        style={{ backgroundImage: 'url(/bookr.jpg)' }}
+      >
+        <div className="flex gap-2">
+          <div className="relative lg:w-[450px] h-10 lg:h-12">
+            {filter !== 'end_date' && (
+              <input
+                type="text"
+                onChange={(e) => setSearchParam(e.target.value)}
+                value={searchParam}
+                placeholder="Search for a book"
+                className="w-full h-full px-7 rounded placeholder:text-gray-500 font-montserrat text-black 
+              focus:border focus:border-custom_orange caret-custom_orange focus:outline-none bg-white lg:h-12"
+              />
+            )}
+            {filter === 'end_date' && (
+              <input
+                type="datetime-local"
+                id="end_date"
+                name="end_date"
+                onChange={(e) => setSearchParam(e.target.value)}
+                value={searchParam}
+                className="w-full h-full px-7 rounded placeholder:text-gray-500 font-montserrat text-black 
+                focus:border focus:border-custom_orange caret-custom_orange focus:outline-none bg-white lg:h-10"
+              />
+            )}
+            <span
+              className="absolute right-3 top-2 w-fit z-20 text-[#898989] font-light 
+            text-sm cursor-pointer md:top-3"
+              onClick={() => setSearchParam('')}
+            >
+              X
+            </span>
+          </div>
+          <button
+            onClick={handleClick}
+            className="bg-custom_orange text-sm lg:text-base w-16 h-10 lg:w-28 lg:h-12 font-montserrat text-white rounded-lg 
+            block hover:bg-[#964B00] "
+          >
+            Search
+          </button>
+        </div>
+        <div className="">
+          {filterOptions?.map(({ name, value }) => (
+            <Fragment key={name}>
+              <input
+                type="radio"
+                id={value}
+                name="filter"
+                value={value}
+                onChange={(e) => setFilter(e.target.value)}
+                className="cursor-pointer accent-custom_orange"
+              />
+              <label htmlFor={value} className="ml-1 mr-4 font-montserrat">
+                {name}
+              </label>
+            </Fragment>
+          ))}
+        </div>
       </div>
       <InfiniteScroll hasMore={hasNextPage} loadMore={fetchNextPage}>
         {isLoading && <h4>Loading...</h4>}
         {books ? (
           books?.pages.map((page, index) => (
-            <Fragment key={index}>
+            <div
+              key={index}
+              className="px-[5%] mt-8 lg:mt-12 flex justify-center gap-6 flex-wrap pb-8"
+            >
               {page.map((book) => {
                 return (
                   <Book key={book.name} book={book} filter={filterParams} />
                 )
               })}
-            </Fragment>
+            </div>
           ))
         ) : (
           <></>
