@@ -37,10 +37,7 @@ const Books: FC = () => {
 
   return (
     <div>
-      <div
-        className="px-[5%] w-full h-[300px] bg-custom_gray flex flex-col items-center justify-center gap-8 bg-cover"
-        style={{ backgroundImage: 'url(/bookr.jpg)' }}
-      >
+      <div className="px-[5%] w-full h-[300px] bg-custom_gray flex flex-col items-center justify-center gap-8 bg-cover">
         <div className="flex gap-2">
           <div className="relative lg:w-[450px] h-10 lg:h-12">
             {filter !== 'end_date' && (
