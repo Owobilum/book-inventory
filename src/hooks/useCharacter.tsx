@@ -1,11 +1,11 @@
 import { useQuery } from 'react-query'
 
-import { axiosInstance } from '../axiosInstance'
 import type { CharacterType } from '../types'
 
 async function getCharacter(url: string): Promise<CharacterType> {
-  const { data } = await axiosInstance.get(url)
-  return data
+  const response = await fetch(url)
+  const body = await response.json()
+  return body
 }
 
 interface UseCharacter {

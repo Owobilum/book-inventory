@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react'
 import { InfiniteData, useInfiniteQuery } from 'react-query'
 
-import { axiosInstance } from '../axiosInstance'
 import { queryKeys } from '../react-query/constants'
 import type { BookType } from '../types'
 import { parseLinkHeader } from '../utils'
@@ -23,12 +22,14 @@ export function useInfiniteBooks(): UseInfiniteBooks {
 
   const getBooks = useCallback(
     async (pageUrl: string | undefined): Promise<BookType[]> => {
-      const { data, headers } = await axiosInstance.get(pageUrl || '')
-      if (headers?.link) {
-        const linkObj = parseLinkHeader(headers.link)
+      const response = await fetch(pageUrl || '')
+      const body = await response.json()
+      const link = response.headers.get('Link')
+      if (link) {
+        const linkObj = parseLinkHeader(link)
         linkObj.next ? setNextPageUrl(linkObj.next) : setNextPageUrl(undefined)
       }
-      return data
+      return body
     },
     []
   )
