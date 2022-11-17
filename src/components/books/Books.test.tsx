@@ -1,7 +1,7 @@
-import { render } from '@testing-library/react'
+import { renderWithQueryClient } from '../../test-utils'
 
 import Books from './Books'
 
-test('Renders response from query', () => {
-  render(<Books />)
+test('Renders Books Component', async () => {
+  renderWithQueryClient(<Books />)
 })
